@@ -1,62 +1,76 @@
 <?php
-function createTweet(object $api, string $text)
-{
-    $tweet = $api->post('statuses/update', ["status" => $text]);
+function createTweet(string $text)
+{   
+    global $twitter;
+    $twitter->post('statuses/update', ["status" => $text]);
 }
 
 //1日にMAX:400までフォローできる
-function follow(object $api, int $userId)
-{
-    $follow = $api->post('friendships/create', ['user_id' => $userId]);
+// 5000アカウントまでは無条件に行ける
+// それ以降は比率に応じて変わる
+function follow(int $userId)
+{   
+    global $twitter;
+    $twitter->post('friendships/create', ['user_id' => $userId]);
 }
 
 
-function searchTweets(object $api, string $target)
-{
-    return $api->get('search/tweets', [
+//15分間に180回までのリクエスト制限
+function searchTweets(string $target)
+{   
+    global $twitter;
+    return $twitter->get('search/tweets', [
         'q' => $target,
         'lang' => 'ja',
         'locale' => 'ja',
         'result_type' => 'recent',
-        'count' => '10',
+        'count' => '5',
         'include_entities' => 'false',
     ]);
 }
 
-function unfollow(object $api, int $userId)
-{
-    $api->post('friendships/destroy', ['user_id' => $userId]);
+//15 per user per 15 minute 
+function unfollow(int $userId)
+{   
+    global $twitter;
+    $twitter->post('friendships/destroy', ['user_id' => $userId]);
 }
 
 
-function getFollowing(object $api, string $screenName = null)
-{
-    return $api->get('friends/ids',['screen_name' => $screenName]);
+function getFollowing(string $screenName = null)
+{   
+    global $twitter;
+    return $twitter->get('friends/ids',['screen_name' => $screenName]);
 }
 
 //max5000まで取れる
-function getFollower(object $api, string $screenName = null)
+function getFollower(string $screenName = null)
 {
-    return $api->get('followers/ids',['screen_name' => $screenName]);
+    global $twitter;
+    return $twitter->get('followers/ids',['screen_name' => $screenName]);
 }
 
 //回数制限あり  
-function deleteTweet(object $api, int $tweetId)
+function deleteTweet(int $tweetId)
 {
-    $api->post('statuses/destroy', ['id' => $tweetId]);
+    global $twitter;
+    $twitter->post('statuses/destroy', ['id' => $tweetId]);
 }
 
 //フォローしていないユーザーのRTは取得できない
-function getTimeLIne(object $api, string $screenName)
-{
-    return $api->get("statuses/user_timeline", ['screen_name' => $screenName]);
+function getTimeLIne(string $screenName)
+{   
+    global $twitter;
+    return $twitter->get("statuses/user_timeline", ['screen_name' => $screenName]);
 }
 
-function retweet(object $api, int $retweetId) {
-    $retweet = $api->post("statuses/retweet", ['id' => $retweetId]);
+function retweet(int $retweetId) {
+    global $twitter;
+    $twitter->post("statuses/retweet", ['id' => $retweetId]);
 }
 
-function unretweet(object $api, int $retweetId)
+function unretweet(int $retweetId)
 {
-    $api->post('statuses/unretweet', ['id' => $retweetId]);
+    global $twitter;
+    $twitter->post('statuses/unretweet', ['id' => $retweetId]);
 }
