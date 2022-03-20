@@ -11,7 +11,7 @@ try {
     ];
     $response = $sheet->spreadsheets_values->get($sheetId,$sheetName . '!' . $sheetRange,$options);
     $col = $response->getValues()[0];
-
+    shuffle($col);
     $targetName = $col[0];
     $all = getFollower($targetName)->ids;
     $myFollowings = getFollowing()->ids;
