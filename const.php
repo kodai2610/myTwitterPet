@@ -10,11 +10,15 @@ const TW_CS = 'JjShstDvKPNuvC9ngRKYcRBzHmdtopsbPHdWhxINHnDM3e1UKO';
 const TW_AT = '1326359912775999494-flJW4Gkd3nGxSpfDjKYgJMH1VP75m9';
 const TW_ATS = 'KJEs80FVE5s0WTEJWDONauyCbN11LnyAC0rtGEqxKDAtl';
 
+//GoogleSpreadSheet
+$key = __DIR__ . '/pem/constant-idiom-327110-07d3b33eb5e2.json';
+$sheetId = '1y9Z27YETc4ppovjPZPCyH52nJQkk4V5NRY_Me6MeHIE';
+
 try {
     $twitter = new TwitterOAuth(TW_CK, TW_CS, TW_AT, TW_ATS); 
     //TwitterOAuthクラスのインスタンスを作成
     $me = $twitter->get('account/verify_credentials');
     //認証が通ったか+ユーザー情報取得
 } catch (Exception $e) {
-    var_dump($e->getMessage());
+    error_log(print_r($e->getMessage(), true), 3, __DIR__ . '/error.txt');
 }

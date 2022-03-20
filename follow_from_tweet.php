@@ -7,7 +7,7 @@ try {
     //仕様①「#大学受験」などを発言しているユーザーを自動フォロー
     $tags = ['#大学受験', '#早慶','#春から浪人','#浪人生','#勉強垢さんと繋がりたい','#浪人生と繋がりたい'];
     shuffle($tags);
-    
+    error_log($tags[0]);
     $targetTweets = searchTweets($tags[0]);
 
     foreach ($targetTweets->statuses as $tweet) {
