@@ -7,7 +7,7 @@ try {
     $friendList = getFollowing()->ids;
     $followerList = getFollower()->ids;
     $resultList = array_diff($friendList,$followerList);
-    
+
     if(!empty($resultList)) {
         //１回を10人に制限する
         if(count($resultList) > 10) {
@@ -20,5 +20,5 @@ try {
         }
     }
 } catch (Exception $e) {
-    error_log($e->getMessage());
+    error_log(print_r($e->getMessage(), true), 3, __DIR__ . '/error.txt');
 }

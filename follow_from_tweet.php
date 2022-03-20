@@ -14,13 +14,13 @@ try {
     $col = $response->getValues()[0];
     shuffle($col);
     $targetTweets = searchTweets($col[0]);
-    
+
     foreach ($targetTweets->statuses as $tweet) {
         follow($tweet->user->id);
         sleep(2);
     }
 
 } catch (Exception $e) {
-    error_log($e->getMessage());
+    error_log(print_r($e->getMessage(),true),3, __DIR__ . '/error.txt');
 }
 
